@@ -1,5 +1,29 @@
 # tailwindcss-material
-Material plugin for tailwindcss
+
+Material plugin for tailwindcss 2.0.0 and up.
+
+## Install plugin
+
+Install the plugin as devDependency (or normal dependency if needed):
+
+```bash
+# Using npm
+npm install --save-dev tailwindcss-material
+
+# Using yarn
+yarn add --dev tailwindcss-material
+```
+
+If you want to use the complete plugin:
+
+```javascript
+// tailwind.config.js
+module.exports = {
+  plugins: [
+    require("tailwindcss-material")
+  ]
+}
+```
 
 ## Colors
 
