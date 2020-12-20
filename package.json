@@ -1,0 +1,26 @@
+{
+  "name": "tailwindcss-material",
+  "version": "1.0.0",
+  "description": "Material plugin for tailwindcss",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahaasler/tailwindcss-material.git"
+  },
+  "keywords": [
+    "tailwind",
+    "tailwindcss",
+    "plugin",
+    "colors",
+    "material"
+  ],
+  "author": "Adrian Haasler García <dev@ahaasler.com> (https://ahaasler.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ahaasler/tailwindcss-material/issues"
+  },
+  "homepage": "https://github.com/ahaasler/tailwindcss-material#readme"
+}
