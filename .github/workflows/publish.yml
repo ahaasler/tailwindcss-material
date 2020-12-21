@@ -1,0 +1,38 @@
+name: Publish
+on:
+  push:
+    tags:
+    - 'v*'
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+    - name: Use Node.js v12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: Install dependencies
+      run: yarn install
+    - name: Test module
+      run: yarn test
+    - name: Publish module
+      uses: JS-DevTools/npm-publish@v1
+      with:
+        token: ${{ secrets.NPM_TOKEN }}
+    - name: Prepare release changelog
+      run: |
+        echo 'RELEASE_CHANGELOG<<EOF' >> $GITHUB_ENV
+        yarn conventional-changelog -r 1 -p angular | tail -n +7 >> $GITHUB_ENV
+        echo 'EOF' >> $GITHUB_ENV
+    - name: Create release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: ${{ env.RELEASE_CHANGELOG }}
+        draft: false
+        prerelease: false
