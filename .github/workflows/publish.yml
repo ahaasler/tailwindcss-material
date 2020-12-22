@@ -24,7 +24,7 @@ jobs:
     - name: Prepare release changelog
       run: |
         echo 'RELEASE_CHANGELOG<<EOF' >> $GITHUB_ENV
-        yarn conventional-changelog -r 1 -p angular | tail -n +7 >> $GITHUB_ENV
+        yarn conventional-changelog -r 2 -p angular | tail -n +6 | head -n -3 >> $GITHUB_ENV
         echo 'EOF' >> $GITHUB_ENV
     - name: Create release
       uses: actions/create-release@v1
