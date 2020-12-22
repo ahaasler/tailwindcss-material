@@ -1,10 +1,11 @@
-name: Publish
+name: Publish version
 on:
   push:
     tags:
     - 'v*'
 jobs:
-  publish:
+  npm-publish:
+    name: Publish to NPM registry
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repo
@@ -21,6 +22,18 @@ jobs:
       uses: JS-DevTools/npm-publish@v1
       with:
         token: ${{ secrets.NPM_TOKEN }}
+  github-release:
+    name: Publish GitHub release
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+    - name: Use Node.js v12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: Install dependencies
+      run: yarn install
     - name: Prepare release changelog
       run: |
         echo 'RELEASE_CHANGELOG<<EOF' >> $GITHUB_ENV
