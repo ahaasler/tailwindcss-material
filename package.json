@@ -44,6 +44,6 @@
     }
   },
   "peerDependencies": {
-    "tailwindcss": "2.0.0"
+    "tailwindcss": "^2.0.0"
   }
 }
