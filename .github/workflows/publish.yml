@@ -28,24 +28,29 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     - name: Use Node.js v12.x
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
     - name: Install dependencies
       run: yarn install
-    - name: Prepare release changelog
-      run: |
-        echo 'RELEASE_CHANGELOG<<EOF' >> $GITHUB_ENV
-        yarn conventional-changelog -r 2 -p angular | tail -n +6 | head -n -3 >> $GITHUB_ENV
-        echo 'EOF' >> $GITHUB_ENV
+    - name: Get release version
+      id: getReleaseVersion
+      run: echo ::set-output name=RELEASE_VERSION::${GITHUB_REF/refs\/tags\/v/}
+    - name: Prepare release notes
+      run: yarn conventional-changelog -r 2 -p angular | tail -n +6 | head -n -3 | tee RELEASE-NOTES.md
     - name: Create release
-      uses: actions/create-release@v1
+      uses: softprops/action-gh-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        body: ${{ env.RELEASE_CHANGELOG }}
+        tag_name: v${{ steps.getReleaseVersion.outputs.RELEASE_VERSION }}
+        name: Release ${{ steps.getReleaseVersion.outputs.RELEASE_VERSION }}
+        body_path: RELEASE-NOTES.md
         draft: false
         prerelease: false
+        files: |
+          RELEASE-NOTES.md
+          LICENSE
